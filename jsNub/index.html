@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS NOOB</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header><h1>JS Noob Starter Pack</h1></header>
+  <h2 class="person"></h2>
+  <div class="children">
+
+  </div>
+</body>
+<script type="text/javascript">
+
+  var person = {
+    Name: 'Ben',
+    Last: 'Tisoy',
+    Age: 44,
+    Children: ['Arlan','Jess','Robin'],
+    address: {
+      street: '21 Jumpstreet',
+      city: 'Compton',
+      state: 'MA'
+    },
+    fullName: function() {
+      return this.Name + ' ' + this.Last;
+    },
+    querySelect: function(elemSel) {
+      return document.querySelectorAll(elemSel);
+    }
+  }
+
+  var methods = {
+    childrenCount: function(){
+      var love = [];
+      for(var i = 0; i < person.Children.length; i++) {
+        love.push('<div class="child">Hi I am ' + person.Name +' '+ person.Last + ', Age ' + person.Age + ' I have ' + person.Children.length + ' children, a Child named ' + person.Children[i] + ' is a bastard</div>');
+        // console.log('Hi I am ' + person.Name +' '+ person.Last + ', Age ' + person.Age + ' I have ' + person.Children.length + ' children, a Child named ' + person.Children[i] + ' is a bastard')
+      }
+      return love.join("");
+    }
+  }
+
+
+methods.childrenCount();
+let name = person.querySelect('h2.person');
+let child = person.querySelect('div.children');
+
+name[0].innerHTML = person.fullName();
+child[0].innerHTML = methods.childrenCount();
+
+</script>
+</html>
