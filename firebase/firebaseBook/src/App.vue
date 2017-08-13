@@ -162,7 +162,8 @@ export default {
 
        // create a copy of the item
        item = {
-         this.newBook
+         this.
+         newBook
        }
        // remove the .key attribute
        delete des['.key']
