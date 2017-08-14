@@ -3,16 +3,16 @@
     <img src="./assets/logo.png">
     <div class="container">
       <div class="page-header">
-        <h1>VUEJS + FIREBASE</h1>
+        <h5>VUEJS + FIREBASE</h5>
         <small>{{newBook.Title}}</small>
       </div>
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h2>Book Marking</h2>
+          <h6>Book Marking</h6>
         </div>
         <div class="Form Add">
-          <h2>Add Book</h2>
+          <strong>Add Book</strong>
           <form id="form" class="col s12">
             <div class="row">
               <div class="input-field col s6">
@@ -32,7 +32,7 @@
             </div>
             <div class="row">
               <button v-on:click.prevent="addBook" name="button" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></button>
-              <button v-on:click.prevent="keyshit" name="button" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">update</i></button>
+              <button v-on:click.prevent="updateBook(newBook)" name="button" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">update</i></button>
             </div>
           </form>
         </div>
@@ -45,15 +45,14 @@
                 <th>URL</th>
                 <th>Update</th>
                 <th>Delete</th>
-
               </tr>
             </thead>
             <tbody>
-              <tr v-for="book in Bookmark" v-bind:id="book['.key']">
+              <tr v-for="book in Bookmark" :key="book['.key']">
                 <td><a v-bind:href="book.URL || book.url">{{book.Title}}</a></td>
                 <td>{{book.Author}}</td>
                 <td><a target="_blank" v-bind:href="book.URL || book.url">{{book.URL || book.url}}</a></td>
-                <td><a target="_blank" href="#" v-on:click.prevent="updateBook(book)">Update</a></td>
+                <td><a target="_blank" href="#" v-on:click.prevent="editBook(book)">Edit</a></td>
                 <td><a target="_blank" href="#" v-on:click.prevent="deleteBook(book)">Delete</a></td>
               </tr>
             </tbody>
@@ -78,24 +77,9 @@ let config = {
   messagingSenderId: "464858574686"
 }
 
-
-
-let app = Firebase.initializeApp(config);
-let db = app.database();
-// console.log(db);
-let bookRef = db.ref('Bookmark');
-
-let bookRefObj = db.ref().child('Bookmark')
-
-bookRefObj.on('child_added', snap => {
-  var objt = snap.val();
-  // console.log(snap.val());
-  console.log(objt.Title);
-  console.log(objt.Author);
-  console.log(objt.URL);
-});
-
-console.log(bookRefObj);
+let firebaseapp = Firebase.initializeApp(config);
+let db = firebaseapp.database();
+let bookRef = db.ref('Bookmark')
 
 export default {
   name: 'app',
@@ -107,6 +91,7 @@ export default {
   },
   data () {
     return {
+      books: [],
       newBook: {
         Title: '',
         Author: '',
@@ -114,63 +99,33 @@ export default {
         id: ''
       }
     }
+
   },
   methods: {
-    addBook: function() {
-      bookRef.push(this.newBook);
-      this.newBook.Title ='';
-      this.newBook.Author ='';
-      this.newBook.URL = '';
-
+    addBook: function () {
+        bookRef.push(this.newBook);
+        this.newBook.Title = '';
+        this.newBook.Author = '';
+        this.newBook.URL = '';
     },
     deleteBook: function(book) {
       bookRef.child(book['.key']).remove();
+      toastr.success('Business removed successfully');
     },
-    updateBook: function(e) {
-      // var reviewNode = e.Title;
-      // console.log(reviewNode);
-      var keyMo = e['.key']
-      this.newBook.Title = e.Title;
-      this.newBook.Author = e.Author;
-      this.newBook.URL = e.URL;
-      this.newBook.id = keyMo;
-      console.log(keyMo);
-
+    editBook: function(post) {
       var title = document.getElementById('titleBook');
       var author = document.getElementById('author');
       var url = document.getElementById('url');
-
-      // console.log(inputs);
+      this.newBook = post
       setTimeout(function(){ title.focus(); }, 0);
       setTimeout(function(){ author.focus(); }, 1);
       setTimeout(function(){ url.focus(); }, 2);
-
-
     },
-    keyshit: function(d) {
-      // var uptitle = this.newBook.Title;
-      // var upAuthor = this.newBook.Author;
-      // var upURL = this.newBook.URL;
-      var des = this.newBook.id;
-      console.log(des);
-      // var babe = bookRefObj +'/'+des;
-      // console.log(babe);
-
-      // updateUserName(des, newName) {
-      //   this.$firebaseRefs.users.child(user['.key']).child('name').set(newName);
-      // }
-
-       // create a copy of the item
-       item = {
-         this.
-         newBook
-       }
-       // remove the .key attribute
-       delete des['.key']
-       this.$firebaseRefs.Bookmark.child(des['.key']).set(item)
-     }
-
-      // console.log(bookRef.child(k['.key']));
+    updateBook: function(book) {
+    //   const childKey = book['.key'];
+    //   delete book['.key'];
+    //  this.$firebaseRefs.books.child(childKey).update(newBook)
+    console.log('update')
     }
   }
 }
