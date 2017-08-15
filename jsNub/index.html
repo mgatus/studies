@@ -25,7 +25,7 @@
         <span v-bind:class="todo.status">{{todo.task}}</span>
         <a href="#" @click="doneTodo">Mark as done</a>
         <a href="#" @click="removeTodo(todo.id)">Delete</a>
-        <a href="#" @click="editTodo(todo)">Edit</a>
+        <a href="#" @click="editTodo(todo.id)">Edit</a>
       </li>
     </ul>
   </div>
@@ -92,25 +92,22 @@ var app = new Vue({
         };
       }
       window.localStorage.setItem('testudo', JSON.stringify(data));
-
       this.fetchdata();
 
     },
 
-    editTodo: function(data){
+    editTodo: function(d){
       // console.log(data.task);
-      let todos = JSON.parse(localStorage.getItem('testudo'));
-      let task = todos.task;
-      // console.log(task);
-      // console.log(todos);
-      for (var i = 0; i < todos.length; i++) {
-        if(data.task === todos[i].task) {
-          // console.log(todos[i].task);
-          todos.task = todos[i].task;
-          console.log(todos.task);
-          return todos.task
+      let data = JSON.parse(window.localStorage.getItem('testudo'));
+      for(var i = 0; i < data.length; i++ ) {
+        if(data[i].id == d){
+          console.log(data[i].task);
+          // data[i].task = this.todos.task
+          console.log(this.todos.task);
         }
       }
+      // window.localStorage.setItem('testudo', JSON.stringify(data));
+      // this.fetchdata();
     }
   }
 
