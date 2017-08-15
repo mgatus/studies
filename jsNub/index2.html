@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS NOOB</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header><h1>JS Noob Starter Pack</h1></header>
+  <h2 class="person"></h2>
+  <div class="children"></div>
+  <div><button class="changeme" type="button" name="button">Click for event</button></div>
+  <div>
+    <select name="backgroundchanger" id="bgselector">
+      <option value="red">Red</option>
+      <option value="blue">Blue</option>
+      <option value="yellow">Yellow</option>
+    </select>
+  </div>
+</body>
+<script type="text/javascript">
+
+  var person = {
+    Name: 'Ben',
+    Last: 'Tisoy',
+    Age: 44,
+    Children: ['Arlan','Jess','Robin'],
+    address: {
+      street: '21 Jumpstreet',
+      city: 'Compton',
+      state: 'MA'
+    },
+    fullName: function() {
+      return this.Name + ' ' + this.Last;
+    },
+    querySelect: function(elemSel) {
+      return document.querySelectorAll(elemSel);
+    },
+    idSelect : function(elemId) {
+      return document.getElementById(elemId);
+    }
+  }
+
+  var methods = {
+    childrenCount: function(){
+      var love = [];
+      for(var i = 0; i < person.Children.length; i++) {
+        love.push('<div class="child">Hi I am ' + person.Name +' '+ person.Last + ', Age ' + person.Age + ' I have ' + person.Children.length + ' children, a Child named ' + person.Children[i] + ' is a bastard</div>');
+      }
+      return love.join("");
+    },
+    changeMe: function(){
+      var date = new Date();
+      var changeMebutton = person.querySelect('button.changeme');
+      changeMebutton[0].addEventListener("click", testclick);
+      function testclick() {
+        alert(date.getTime());
+      }
+    },
+    backgroundChanger: function() {
+      var selection = person.idSelect('bgselector');
+      var texth2 = person.querySelect('header h1');
+      var colors = [];
+      for(var i = 0; i < selection.length; i++) {
+        colors.push(selection[i].value);
+      }
+      console.log(colors)
+      // var color = '';
+      texth2[0].style.color = selection.value;
+      selection.addEventListener("change", function(){
+        console.log(selection.value);
+        texth2[0].style.color = selection.value;
+      });
+
+    }
+  }
+
+
+methods.childrenCount();
+methods.changeMe();
+methods.backgroundChanger();
+
+let name = person.querySelect('h2.person');
+let child = person.querySelect('div.children');
+
+name[0].innerHTML = person.fullName();
+child[0].innerHTML = methods.childrenCount();
+
+</script>
+</html>
