@@ -32,7 +32,8 @@
             </div>
             <div class="row">
               <button v-on:click.prevent="addBook" name="button" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></button>
-              <button v-on:click.prevent="updateBook(book)" name="button" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">update</i></button>
+              <button v-on:click.prevent="updateBook(newBook)" name="button" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">update</i></button>
+
             </div>
           </form>
         </div>
@@ -122,11 +123,18 @@ export default {
       setTimeout(function(){ url.focus(); }, 2);
     },
     updateBook: function(book) {
+
       const childKey = book['.key'];
       console.log(childKey);
       delete book['.key'];
       this.$firebaseRefs.books[0].child(childKey).set(book)
       console.log(book)
+
+    //   const childKey = book['.key'];
+    //   delete book['.key'];
+    //  this.$firebaseRefs.books.child(childKey).update(newBook)
+      console.log('update')
+
     }
   }
 }
