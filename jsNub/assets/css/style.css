@@ -8,6 +8,11 @@ header {
   border-bottom: 1px solid #ccc;
 }
 
+.Done {
+  text-decoration: line-through;
+  color: #bdbdbd !important;
+}
+
 .children {
   width: 90%;
   margin: 0 auto;
@@ -16,4 +21,63 @@ header {
 .children .child {
   border-bottom: 1px dashed #ccc;
   padding: 15px 0;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+#app {
+  background-image: url("../img/blur.jpg");
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#app #todoApp .center-flex {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  float: none;
+  margin: 0 auto;
+  min-width: 600px;
+  max-width: 60%;
+}
+
+#app .btnUpdates {
+  top: -53px;
+  right: -17px;
+}
+
+#app .collection .item {
+  width: 100%;
+  float: left;
+  display: block;
+  padding: 15px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+#app .card-action > form {
+  position: relative;
+}
+
+#app .card-action > form > div > label {
+  position: absolute;
+  top: 22px;
+  transition: 0.2s;
+}
+
+#app .card-action input:focus + label {
+  top: -7px;
+  font-size: 0.8rem;
+}
+
+#app .card .card-content p {
+  width: 60%;
+  float: left;
+  display: block;
+  word-wrap: break-word;
 }
