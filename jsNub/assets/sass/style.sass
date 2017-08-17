@@ -1,4 +1,7 @@
 // compileExpanded: ..\css\style.css
+
+@import "materialize.scss"
+
 body
   font-family: arial,sans-serif
   color: #333
@@ -6,9 +9,19 @@ header
   padding: 15px
   border-bottom: 1px solid #ccc
 
+.done
+  text-decoration: line-through
+
 .children
   width: 90%
   margin: 0 auto
   .child
     border-bottom: 1px dashed #ccc
     padding: 15px 0
+
+[v-cloak]
+  display: none
+
+@media #{$small-and-down}
+  body
+    background: #000

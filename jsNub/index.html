@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>To Do List App + Vue.js</title>
+
   <script type="text/javascript" src="https://unpkg.com/vue@2.4.2"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 </head>
 <style>
   .done{
@@ -11,108 +15,56 @@
   }
 </style>
 <body>
-
-
 <div id="app">
-  <h1>{{message}}</h1>
-  <form>
-    <input type="text" v-model="todos.task"><button v-on:click.prevent="addTodo">Add Task</button>
+  <h1 v-cloak>{{message}}</h1>
+  <form v-cloak>
+    <div v-if="adding">
+      <input type="text" v-model="todos.task" id="todoInput">
+      <button class="waves-effect waves-light btn" v-on:click.prevent="addTodo">Add Task</button>
+    </div>
+    <div v-if="editing">
+      <input type="text" v-model="newVal" v-bind:value="newVal" id="todoInput">
+      <button class="waves-effect waves-light btn" v-on:click.prevent="saveTodo">Save Task</button>
+    </div>
   </form>
 
-  <div class="todo-listings">
+  <!-- <div class="todo-listings collection">
     <ul>
       <li v-for="todo in todos" :key="todo.id">
         <span v-bind:class="todo.status">{{todo.task}}</span>
-        <a href="#" @click="doneTodo">Mark as done</a>
+        <a href="#" @click="doneTodo(todo.id)">{{todo.status}}</a>
         <a href="#" @click="removeTodo(todo.id)">Delete</a>
         <a href="#" @click="editTodo(todo.id)">Edit</a>
       </li>
     </ul>
-  </div>
+  </div> -->
+
+  <!-- <div class="collection">
+    <div v-for="todo in todos" class="collection-item" :key="todo.id">
+      <span v-bind:class="todo.status">{{todo.task}}</span>
+      <a href="#" class="badge" @click="doneTodo(todo.id)">{{todo.status}}</a>
+      <a href="#" class="badge" @click="removeTodo(todo.id)">Delete</a>
+      <a href="#" class="badge"@click="editTodo(todo.id)">Edit</a>
+    </div>
+  </div> -->
+
+  <ul class="collection">
+    <li v-for="todo in todos" :key="todo.id" class="collection-item avatar">
+      <a href="#" class="badge" @click="doneTodo(todo.id)">{{todo.status}}</a>
+      <span v-bind:class="todo.status">{{todo.task}}</span>
+      <p><a href="#" class="badge"@click="editTodo(todo.id)">Edit</a></p>
+      <a href="#!" class="secondary-content" @click="removeTodo(todo.id)"><i class="material-icons">Delete</i></a>
+      <!-- <a href="#" class="badge" @click="removeTodo(todo.id)">Delete</a> -->
+    </li>
+  </ul>
+
+
 </div>
 
-<script type="text/javascript">
+<script type="text/javascript" src="assets/js/fury.js"></script>
 
-var app = new Vue({
-  el: '#app',
-  data: function() {
-    return {
-      id:'',
-      todos:[],
-      message: 'Todo App!',
-      updatedValue: ''
-    }
-
-  },
-  mounted: function () {
-    this.fetchdata();
-    // this.todos = todosItem
-  },
-  methods:{
-    fetchdata: function(){
-      var dataString = window.localStorage.getItem('testudo' || '[]');
-      var todosItem;
-      if(dataString) {
-          todosItem = JSON.parse(dataString);
-          this.todos = todosItem
-      }
-    },
-    addTodo: function(){
-      console.log(this.todos.task);
-      let uid = 0
-
-      if(!this.todos.task){
-        alert('Add todo list');
-        return false;
-      } else {
-        this.todos.push({
-          id: uid+((1 + Math.random()) * 0x10000),
-          task: this.todos.task,
-          status: "doit",
-          editing: false,
-        });
-        var a = this.todos;
-        window.localStorage.setItem('testudo', JSON.stringify(a));
-        this.todos.task='';
-      }
-
-    },
-
-    doneTodo: function(){
-      alert('done');
-
-    },
-    removeTodo: function(d){
-      // alert('delete');
-      let data = JSON.parse(window.localStorage.getItem('testudo'));
-      for(var i = 0; i < data.length; i++ ) {
-        if(data[i].id == d){
-          console.log(data[i].task);
-          data.splice(i,1);
-        };
-      }
-      window.localStorage.setItem('testudo', JSON.stringify(data));
-      this.fetchdata();
-
-    },
-
-    editTodo: function(d){
-      // console.log(data.task);
-      let data = JSON.parse(window.localStorage.getItem('testudo'));
-      for(var i = 0; i < data.length; i++ ) {
-        if(data[i].id == d){
-          console.log(data[i].task);
-          // data[i].task = this.todos.task
-          console.log(this.todos.task);
-        }
-      }
-      // window.localStorage.setItem('testudo', JSON.stringify(data));
-      // this.fetchdata();
-    }
-  }
-
-});
-</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="assets/js/bin/materialize.min.js"></script>
 
 </body>
 </html>
