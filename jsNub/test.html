@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+
+  <!-- Vue.js script source -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+  <style>
+    .taskDone {
+      text-decoration: line-through;
+    }
+  </style>
+
+</head>
+
+<body>
+<div class="container col-sm-8 col-sm-offset-2">
+  <div id="taskApp">
+    <h1>Vue.js Todo list</h1>
+
+    <div class="panel panel-default">
+      <h2 class="text-center">Add New</h2>
+
+      <form v-on:submit='addTask'>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" v-model='tasks.userInput'>
+        </div>
+        <div class="col-sm-4">
+          <input type="submit" value="add" class="btn btn-primary btn-block">
+        </div>
+      </form>
+      &nbsp;
+    </div>
+
+    <table class="table">
+      <thead>
+        <th>Checkmark Done</th>
+        <th>Task Name</th>
+        <th>Delete</th>
+      </thead>
+
+      <tbody v-for='task in pendingTasks'>
+        <tr>
+          <td><input type="checkbox" v-on:click="completeTask(task)" v-model="task.done"></td>
+          <td><span :class="{ taskDone: task.done}">{{ task.name }}</span></td>
+          <td><button class="btn btn-danger btn-block" v-on:click="deleteTask(task)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+<table class="table">
+  <thead>
+    <th>Checkmark Done</th>
+    <th>Task Name</th>
+    <th>Delete</th>
+  </thead>
+
+  <tbody v-for='task in completedTasks'>
+      <tr>
+        <td><input type="checkbox" v-on:click="completeTask(task)" v-model="task.done"></td>
+        <td><span :class="{ taskDone: task.done}">{{ task.name }}</span></td>
+        <td><button class="btn btn-danger btn-block" v-on:click="deleteTask(task)">Delete</button></td>
+      </tr>
+  </tbody>
+
+</table>
+
+    <button class="btn btn-block" v-on:click="saveAll()">Save All</button>
+    <button class="btn btn-block btn-danger" v-on:click="clearAll()">Clear All</button>
+  </div>
+</div>
+
+
+
+</body>
+
+
+<script>
+  var taskApp = new Vue({
+    el: '#taskApp',
+    data: {
+      tasks: [
+        { name: 'gotta do this task first', done: false },
+        { name: 'buy some pet food', done: false },
+        { name: 'install fishtank in living room', done: false },
+      ]
+    },
+    methods: {
+      addTask: function (e) {
+        e.preventDefault();
+        this.tasks.push({
+          name: this.tasks.userInput,
+          done: false
+        });
+        this.saveAll();
+        this.tasks.userInput = "";
+      },
+      deleteTask: function (task) {
+        this.tasks.splice(this.tasks.indexOf(task), 1);
+        this.saveAll();
+      },
+      completeTask: function (i) {
+        if(i.done === false){
+          i.done = true;
+        }else {
+          i.done = false;
+        }
+        this.saveAll();
+      },
+      clearAll: function () {
+        this.tasks = [];
+      },
+      saveAll: function () {
+        var string = JSON.stringify(this.tasks);
+        localStorage.setItem("Saved Tasks", string);
+      },
+      getTasks: function () {
+        var savedTasks = localStorage.getItem("Saved Tasks");
+
+        if(localStorage.getItem("Saved Tasks") === null) {
+          console.log('no tasks saved');
+        }else{
+          console.log('You have some tasks');
+          this.tasks = JSON.parse(savedTasks);
+        }
+      }
+    },
+
+    computed: {
+      completedTasks() {
+        return this.tasks.filter(task => task.done);
+      },
+      pendingTasks() {
+        return this.tasks.filter(task => ! task.done)
+      }
+    },
+
+    mounted: function() {
+      this.getTasks();
+    }
+
+  });
+</script>
+
+</body>

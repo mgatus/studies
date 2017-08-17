@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>To Do List App + Vue.js</title>
+  <title>To Do List App + Vue.js </title>
   <script type="text/javascript" src="https://unpkg.com/vue@2.4.2"></script>
 </head>
 <style>
@@ -14,9 +14,10 @@
 
 
 <div id="app">
-  <h1>{{message}}</h1>
+  <h1>{{message}} <span v-if="editing">Editing : {{updatedValue}}</span></h1>
   <form>
     <input type="text" v-model="todos.task"><button v-on:click.prevent="addTodo">Add Task</button>
+    <button v-if="editing" v-on:click.prevent="saveTodo">Save Task</button>
   </form>
 
   <div class="todo-listings">
@@ -25,7 +26,7 @@
         <span v-bind:class="todo.status">{{todo.task}}</span>
         <a href="#" @click="doneTodo">Mark as done</a>
         <a href="#" @click="removeTodo(todo.id)">Delete</a>
-        <a href="#" @click="editTodo(todo.id)">Edit</a>
+        <a href="#" @click="editTodo(todo)">Edit</a>
       </li>
     </ul>
   </div>
@@ -40,7 +41,8 @@ var app = new Vue({
       id:'',
       todos:[],
       message: 'Todo App!',
-      updatedValue: ''
+      updatedValue: '',
+      editing: false
     }
 
   },
@@ -60,7 +62,6 @@ var app = new Vue({
     addTodo: function(){
       console.log(this.todos.task);
       let uid = 0
-
       if(!this.todos.task){
         alert('Add todo list');
         return false;
@@ -77,11 +78,6 @@ var app = new Vue({
       }
 
     },
-
-    doneTodo: function(){
-      alert('done');
-
-    },
     removeTodo: function(d){
       // alert('delete');
       let data = JSON.parse(window.localStorage.getItem('testudo'));
@@ -95,16 +91,31 @@ var app = new Vue({
       this.fetchdata();
 
     },
-
+    doneTodo: function(){
+      alert('done');
+    },
     editTodo: function(d){
       // console.log(data.task);
-      let data = JSON.parse(window.localStorage.getItem('testudo'));
+      let data = this.todos;
+      // console.log(data);
       for(var i = 0; i < data.length; i++ ) {
-        if(data[i].id == d){
-          console.log(data[i].task);
-          // data[i].task = this.todos.task
+        if(data[i].id){
+          this.todos.task = data[i].task;
           console.log(this.todos.task);
+          this.updatedValue = this.todos.task;
         }
+        this.editing = true;
+
+      }
+      // window.localStorage.setItem('testudo', JSON.stringify(data[i]));
+      // this.fetchdata();
+    },
+    saveTodo: function(d) {
+      let updatedTask = this.todos.task;
+      for(var i = 0; i < updatedTask.length; i++ ) {
+        if(updatedTask[i].id == d){
+          console.log(data[i].task);
+        };
       }
       // window.localStorage.setItem('testudo', JSON.stringify(data));
       // this.fetchdata();
