@@ -10,7 +10,8 @@ var app = new Vue({
       newId: '',
       adding: true,
       editing: false,
-      markdone: true
+      markdone: true,
+      showDuration:''
     }
 
   },
@@ -38,6 +39,9 @@ var app = new Vue({
         task: this.todos.task,
         status: "Undone",
         editing: false,
+        startTask:'',
+        endTask: '',
+        showDuration:''
       });
       this.savingTodo(this.todos);
       this.todos.task='';
@@ -50,6 +54,19 @@ var app = new Vue({
       } else {
         this.pushTodo();
       }
+    },
+    starTime: function(d) {
+      let data = this.parseData();
+      for(var i = 0; i < data.length; i++ ) {
+        if(data[i].id == d){
+          data[i].startTask = performance.now();
+          data[i].endTask = performance.now();
+        }
+      }
+      this.todos = data;
+      var newData = this.todos;
+      this.savingTodo(newData);
+
     },
     removeTodo: function(dataToBeRemove){
       let data = this.parseData();
@@ -92,17 +109,26 @@ var app = new Vue({
     },
     doneTodo: function(d) {
       let data = this.parseData();
+      var computedDuration;
       for(var i = 0; i < data.length; i++ ) {
-        if(data[i].id == d){
+        if(data[i].id == d) {
+          console.log(data[i].endTask + ' and ' + performance.now() + ' sum ' + data[i].endTask + performance.now());
+          data[i].endTask = data[i].endTask + performance.now();
           data[i].status = data[i].status == 'Done' ? 'Undone' : 'Done';
+          data[i].showDuration = this.millConvert(data[i].endTask - data[i].startTask);
         }
         this.markdone = false;
+
       }
       this.todos = data;
       var newData = this.todos;
       this.savingTodo(newData);
       this.mountData();
-
+    },
+    millConvert: function(millis) {
+       var minutes = Math.floor(millis / 60000);
+       var seconds = ((millis % 60000) / 1000).toFixed();
+       return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
     }
   }
 

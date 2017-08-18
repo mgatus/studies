@@ -51,6 +51,7 @@ header
       display: block
       padding: 15px
       border-bottom: 1px solid #eaeaea
+      position: relative
 
   .card-action > form
     position: relative
@@ -69,3 +70,21 @@ header
     float: left
     display: block
     word-wrap: break-word
+
+  .status
+    opacity: 1
+    animation: flickerAnimation 1s infinite
+    color: #26a69a
+
+
+// *************** Fade in fade out
+@keyframes flickerAnimation
+  /* flame pulses
+  0%
+    opacity: 1
+
+  50%
+    opacity: 0
+
+  100%
+    opacity: 1

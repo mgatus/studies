@@ -26,13 +26,24 @@
           <div class="card-content">
             <ul class="collection">
               <li v-for="todo in todos" :key="todo.id" class="item">
-                <p v-bind:class="todo.status" class="left">{{todo.task}}</p>
-                <a href="#!" class="badge" @click="removeTodo(todo.id)"><i class="material-icons tiny right">delete</i></a>
-                <a href="#" class="badge" @click="editTodo(todo.id)"><i class="material-icons tiny right">edit</i></a>
-                <a href="#" @click="doneTodo(todo.id)">
-                  <i title="Mark as Done" v-if="todo.status === 'Undone'" class="material-icons dp48 right tiny">radio_button_unchecked</i>
-                  <i title="To Do" v-else class="material-icons dp48 right tiny">check_circle</i>
-                </a>
+                <!-- <span class="status" v-if="todo.startTask!=='' && todo.status==='Undone'"><i title="Running Task" class="material-icons right">fiber_manual_record</i></span> -->
+                <p class="left"><span v-bind:class="todo.status">{{todo.task}}</span> {{todo.showDuration}}</p>
+
+                <div v-if="todo.startTask==='' " class="notstartedtask">
+                  <a href="#!" class="badge" @click="removeTodo(todo.id)"><i class="material-icons tiny right">delete</i></a>
+                  <a href="#" class="badge" @click="editTodo(todo.id)"><i class="material-icons tiny right">edit</i></a>
+                  <a href="#!" @click="starTime(todo.id)" class="right"><i title="Start the task" class="material-icons tiny right">alarm</i></a>
+                </div>
+
+                <div v-else class="startedStask">
+                  <a href="#!" class="badge" @click="removeTodo(todo.id)"><i class="material-icons tiny right">delete</i></a>
+                  <a href="#" class="badge" @click="editTodo(todo.id)"><i class="material-icons tiny right">edit</i></a>
+                  <a href="#" @click="doneTodo(todo.id)">
+                    <i title="This is done, Click if you want to Uncheck" v-if="todo.status === 'Done'" class=" material-icons dp48 right tiny">fiber_manual_record </i>
+                    <i title="The Task Running, Click to finish this task" v-else class="status material-icons dp48 right tiny">radio_button_unchecked </i>
+                  </a>
+                </div>
+
               </li>
             </ul>
           </div>
@@ -59,6 +70,5 @@
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="assets/js/bin/materialize.min.js"></script>
-
 </body>
 </html>

@@ -1,83 +1,103 @@
 body {
-  font-family: arial,sans-serif;
-  color: #333;
+		font-family: arial,sans-serif;
+		color: #333;
 }
 
 header {
-  padding: 15px;
-  border-bottom: 1px solid #ccc;
+		padding: 15px;
+		border-bottom: 1px solid #ccc;
 }
 
 .Done {
-  text-decoration: line-through;
-  color: #bdbdbd !important;
+		text-decoration: line-through;
+		color: #bdbdbd !important;
 }
 
 .children {
-  width: 90%;
-  margin: 0 auto;
+		width: 90%;
+		margin: 0 auto;
 }
 
 .children .child {
-  border-bottom: 1px dashed #ccc;
-  padding: 15px 0;
+		border-bottom: 1px dashed #ccc;
+		padding: 15px 0;
 }
 
 [v-cloak] {
-  display: none;
+		display: none;
 }
 
 #app {
-  background-image: url("../img/blur.jpg");
-  background-size: cover;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+		background-image: url("../img/blur.jpg");
+		background-size: cover;
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 }
 
 #app #todoApp .center-flex {
-  display: block;
-  justify-content: center;
-  align-items: center;
-  float: none;
-  margin: 0 auto;
-  min-width: 600px;
-  max-width: 60%;
+		display: block;
+		justify-content: center;
+		align-items: center;
+		float: none;
+		margin: 0 auto;
+		min-width: 600px;
+		max-width: 60%;
 }
 
 #app .btnUpdates {
-  top: -53px;
-  right: -17px;
+		top: -53px;
+		right: -17px;
 }
 
 #app .collection .item {
-  width: 100%;
-  float: left;
-  display: block;
-  padding: 15px;
-  border-bottom: 1px solid #eaeaea;
+		width: 100%;
+		float: left;
+		display: block;
+		padding: 15px;
+		border-bottom: 1px solid #eaeaea;
+		position: relative;
 }
 
 #app .card-action > form {
-  position: relative;
+		position: relative;
 }
 
 #app .card-action > form > div > label {
-  position: absolute;
-  top: 22px;
-  transition: 0.2s;
+		position: absolute;
+		top: 22px;
+		transition: 0.2s;
 }
 
 #app .card-action input:focus + label {
-  top: -7px;
-  font-size: 0.8rem;
+		top: -7px;
+		font-size: 0.8rem;
 }
 
 #app .card .card-content p {
-  width: 60%;
-  float: left;
-  display: block;
-  word-wrap: break-word;
+		width: 60%;
+		float: left;
+		display: block;
+		word-wrap: break-word;
+}
+
+#app .status {
+		opacity: 1;
+		animation: flickerAnimation 1s infinite;
+		color: #26a69a;
+}
+
+@keyframes flickerAnimation {
+		/* flame pulses */
+		0% {
+				opacity: 1;
+		}
+		50% {
+				opacity: 0;
+		}
+		100% {
+				opacity: 1;
+		}
 }
