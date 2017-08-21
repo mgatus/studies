@@ -11,7 +11,8 @@ var app = new Vue({
       adding: true,
       editing: false,
       markdone: true,
-      showDuration:''
+      showDuration:'',
+      noTaskAdded: false
     }
 
   },
@@ -47,20 +48,26 @@ var app = new Vue({
       this.todos.task='';
     },
     addTodo: function(){
-      console.log(this.todos.task);
+      // console.log(this.todos.task);
       if(!this.todos.task){
-        alert('Add todo list');
+        // alert('Add todo list');
+        this.noTaskAdded = true;
+        this.$refs.todoInput.focus();
+        setTimeout(() => {
+            this.noTaskAdded = false;
+        }, 2000);
         return false;
       } else {
         this.pushTodo();
       }
+
     },
     starTime: function(d) {
       let data = this.parseData();
       for(var i = 0; i < data.length; i++ ) {
         if(data[i].id == d){
-          data[i].startTask = performance.now();
-          data[i].endTask = performance.now();
+          data[i].startTask = new Date().getTime();;
+          data[i].endTask = new Date().getTime();;
         }
       }
       this.todos = data;
@@ -112,11 +119,11 @@ var app = new Vue({
       var computedDuration;
       for(var i = 0; i < data.length; i++ ) {
         if(data[i].id == d) {
-          console.log(data[i].endTask + ' and ' + performance.now() + ' sum ' + data[i].endTask + performance.now());
-          data[i].endTask = data[i].endTask + performance.now();
+          data[i].endTask = new Date().getTime();
           data[i].status = data[i].status == 'Done' ? 'Undone' : 'Done';
           data[i].showDuration = this.millConvert(data[i].endTask - data[i].startTask);
         }
+        // data[i].startTask='';
         this.markdone = false;
 
       }
